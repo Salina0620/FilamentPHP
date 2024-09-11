@@ -4,26 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Patient extends Model
 {
     use HasFactory;
-
-    protected $table = 'patients';
-
-
-    protected $fillable = [
-       'user_id','age','gender','address','phone_no'
-    ];
-
-    public function user(): BelongsTo
+    protected $guarded =[];
+    // protected $fillable =['user_id','address','number','age','birth_date','gender','description'];
+    public function user():\Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-
-    public function appointments()
+    public function appointments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Appointment::class);
+    }
+    public function department(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Department::class);
     }
 }

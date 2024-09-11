@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Department;
+use App\Models\Doctor;
+use App\Models\Patient;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,18 +13,15 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {  Schema::dropIfExists('appointments');
-
+    {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('doctor_id')->constrained('doctors')->onDelete('cascade');
-            $table->foreignId('shift_id')->constrained()->onDelete('cascade');
-            $table->date('date');
-            $table->time('start_time');
-            $table->time('end_time');
+            $table->foreignIdFor(Patient::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Doctor::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Department::class)->constrained()->cascadeOnDelete();
+            // $table->enum('status',['open','close','pending']);
+            $table->dateTime('date_time');
             $table->timestamps();
-            $table->unique(['patient_id', 'doctor_id', 'date', 'start_time', 'end_time']);
         });
     }
 

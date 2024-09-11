@@ -2,33 +2,30 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
     use HasFactory;
-
-    protected $table = 'doctors';
-
-    protected $fillable=[
-        'user_id', 'department_id', 'phone_no', 'bio', 'image'
-    ];
+    protected $guarded = [];
     // protected $fillable =['user_id','position','gender','shift','image','experience','phone_number','department_id'];
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function department(){
-        return $this->belongsTo(Department::class);
+    public function department()
+    { //each doctor belongs to one department
+        return $this->belongsTo(Department::class);//many to one
     }
-    public function shifts()
+    public function appointments()
     {
-        return $this->hasMany(Shift::class);
+         //1 doctor has many appointment
+        return $this->hasMany(Appointment::class);//one to many
     }
-    public function appointments(){
-        return $this->hasMany(Appointment::class);
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
     }
-
-    
 }

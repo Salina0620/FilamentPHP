@@ -33,7 +33,7 @@ class Register extends BaseRegister
                 'patient' => 'patient',
                 'doctor' => 'doctor',
             ])
-            ->default('admin')
+            ->default('patient')
             ->required();
     }
 }
